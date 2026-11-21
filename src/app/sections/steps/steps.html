@@ -1,0 +1,22 @@
+<section id="steps">
+  <div class="container mx-auto px-4 py-12.5 flex flex-col gap-y-16.5">
+    <div class="flex flex-col gap-y-5.5">
+      <div class="flex items-center gap-x-3.5">
+        <div class="bg-[#ff503a] h-0.75 w-6"></div>
+        <span class="font-[IBM_Plex_Mono] text-[#555851] text-[clamp(0.8125rem,0.761rem+0.221vw,0.9375rem)] uppercase">Порядок выкупа</span>
+      </div>
+      <h2 class="title text-[#171816] uppercase text-[clamp(2rem,3.28vw,3.9375rem)] leading-[1.2]">Как всё проходит?</h2>
+    </div>
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      @for (step of steps; track $index; let i = $index) {
+        <div class="flex flex-col gap-y-8 border-t border-[#cfd0c7] pt-2.5">
+          <div class="flex items-center gap-x-7.25">
+            <span class="font-[IBM_Plex_Mono] text-[#9d2c1d]">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <span class="text-[clamp(1.25rem,0.9rem+1.5vw,2rem)] font-bold">{{ step.title }}</span>
+          </div>
+          <p class="text-[#555851] text-[clamp(1rem,3cqw,1.25rem)]">{{ step.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
