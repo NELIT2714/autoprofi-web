@@ -12,15 +12,55 @@
 
         <p class="text-[#555851] text-[clamp(0.9rem,0.8rem+0.4vw,1.15rem)] leading-relaxed max-w-md">{{ t().cars.text }}</p>
 
-<!--        <div class="relative h-full min-h-60 flex-1">-->
-<!--          <img-->
-<!--            ngSrc="/images/cars.webp"-->
-<!--            alt=""-->
-<!--            fill-->
-<!--            sizes="(min-width: 1024px) 45vw, 100vw"-->
-<!--            class="object-cover"-->
-<!--          >-->
-<!--        </div>-->
+        <div class="relative w-full aspect-video">
+          <div
+            class="absolute inset-0 overflow-hidden bg-[#171816]"
+            (mouseenter)="pause(true)"
+            (mouseleave)="pause(false)"
+          >
+            @for (p of photos; track p.src; let i = $index) {
+              <img
+                [src]="p.src"
+                [alt]="p.alt"
+                width="1200"
+                height="675"
+                decoding="async"
+                [attr.fetchpriority]="i === 0 ? 'high' : 'low'"
+                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 will-change-[opacity]"
+                [class]="current() === i ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+              />
+            }
+
+            <button
+              type="button"
+              (click)="prev()"
+              aria-label="Previous"
+              class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-[#171816]/70 hover:bg-[#ff503a] text-white w-12 h-12 text-2xl flex items-center justify-center transition-colors cursor-pointer"
+            >‹</button>
+
+            <button
+              type="button"
+              (click)="next()"
+              aria-label="Next"
+              class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-[#171816]/70 hover:bg-[#ff503a] text-white w-12 h-12 text-2xl flex items-center justify-center transition-colors cursor-pointer"
+            >›</button>
+
+            <div class="absolute bottom-0 inset-x-0 z-20 flex items-center justify-between px-3 py-2 bg-linear-to-t from-black/60 to-transparent">
+              <span class="font-[IBM_Plex_Mono] text-white text-xs">{{ current() + 1 }} / {{ photos.length }}</span>
+              <div class="flex gap-x-1.5">
+                @for (p of photos; track p.src; let i = $index) {
+                  <button
+                    type="button"
+                    (click)="go(i)"
+                    [attr.aria-label]="'Photo ' + (i + 1)"
+                    class="h-0.75 w-4 cursor-pointer transition-colors"
+                    [class]="current() === i ? 'bg-[#ff503a]' : 'bg-white/50'"
+                  ></button>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="flex flex-col gap-y-8 lg:pt-2">

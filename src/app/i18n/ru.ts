@@ -12,15 +12,26 @@ export const ru: Dictionary = {
       description: '...',
     },
   },
+
+  business: {
+    description:
+      'Выкуп автомобилей в Харькове: онлайн-оценка по описанию, осмотр и деньги в день сделки.',
+    street: 'ул. Валковская, 1',
+    locality: 'Песочин',
+    city: 'Харьков',
+    region: 'Харьковская область',
+  },
+
   header: {
     nav: [
-      { label: 'Продать авто', href: '/#valuation' },
-      { label: 'Купить авто', href: '/#catalog' },
-      { label: 'Этапы выкупа', href: '/#steps' },
-      { label: 'Блог', href: '/#blog' },
+      { label: 'Продать авто', href: 'valuation' },
+      { label: 'Купить авто', href: 'catalog' },
+      { label: 'Этапы выкупа', href: 'steps' },
+      { label: 'Блог', href: 'blog' },
     ],
     request_call: 'Заказать звонок',
   },
+
   hero: {
     title: 'Выкуп авто',
     titleAccent: 'в Харькове',
@@ -132,6 +143,7 @@ export const ru: Dictionary = {
       note: 'Если чего-то не хватает, скажите об этом заранее.',
     },
   },
+
   faq: {
     label: 'Перед осмотром',
     title: 'Частые вопросы о выкупе авто',
@@ -174,9 +186,12 @@ export const ru: Dictionary = {
       },
     ],
     reviewsLabel: 'Отзывы клиентов',
-    review:
-      'После осмотра мне объяснили, как сложилась цена. Оставалось выбрать удобное время для оформления.',
+    source: 'Отзыв из Google',
+    all: 'Все отзывы в Google',
+    prev: 'Предыдущий отзыв',
+    next: 'Следующий отзыв',
   },
+
   footer: {
     alt: 'Автовыкуп Харьков',
     text: 'Выкуп авто в Харькове. Оценим по описанию и согласуем осмотр.',

@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4 pt-10 md:pt-14">
     <div class="grid gap-10 pb-10 md:grid-cols-2 md:pb-12 lg:grid-cols-[1.3fr_0.9fr_1.2fr_1fr] lg:gap-12">
       <div class="flex flex-col gap-y-5">
-        <a href="/" class="w-max">
+        <a [routerLink]="i18n.url()" class="w-max">
           <img ngSrc="/images/logo-footer.webp" [alt]="t().footer.alt" width="215" height="37" class="h-8 w-auto sm:h-9">
         </a>
         <p class="max-w-xs text-[0.9375rem] leading-normal text-[#ADAEA5]">{{ t().footer.text }}</p>
@@ -26,7 +26,8 @@
         <ul class="flex flex-col gap-y-3">
           @for (link of t().header.nav; track link.href) {
             <li>
-              <a [href]="link.href" class="text-[0.9375rem] text-[#F5F3ED] transition-colors duration-200 hover:text-[#FF503A]">{{ link.label }}</a>
+              <a [routerLink]="i18n.url()" [fragment]="link.href"
+                 class="text-[0.9375rem] text-[#F5F3ED] transition-colors duration-200 hover:text-[#FF503A]">{{ link.label }}</a>
             </li>
           }
         </ul>
@@ -35,7 +36,9 @@
       <div class="flex flex-col gap-y-4">
         <span class="font-[IBM_Plex_Mono] text-[0.6875rem] tracking-wider text-[#ADAEA5] uppercase">{{ t().footer.location }}</span>
         <div class="flex flex-col gap-y-3 text-[0.9375rem] leading-normal">
-          <p class="text-[#F5F3ED]">{{ t().footer.address }}</p>
+          <p class="text-[#F5F3ED]">
+            {{ t().business.street }}, {{ t().business.locality }}, {{ t().business.city }}
+          </p>
           <p class="text-[#ADAEA5]">{{ t().footer.hours }}</p>
           <a [href]="mapUrl" target="_blank" rel="noopener noreferrer"
              class="group flex w-fit items-center gap-x-2 font-semibold text-[#F5F3ED] transition-colors duration-200 hover:text-[#FF503A]">
@@ -64,17 +67,21 @@
       <div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-[IBM_Plex_Mono] text-[0.6875rem] tracking-wider text-[#ADAEA5] uppercase">
         <span>{{ t().footer.country }}</span>
         <span>/</span>
-        <span>{{ t().footer.city }}</span>
+        <span>{{ t().business.city }}</span>
         <span class="hidden sm:inline">/</span>
         <span class="w-full sm:w-auto">© {{ year }} AutoProfi.kh.ua</span>
       </div>
 
-      <a href="/#" class="group flex w-max items-center gap-x-2 font-[IBM_Plex_Mono] text-[0.6875rem] tracking-wider text-[#ADAEA5] uppercase transition-colors duration-200 hover:text-[#FF503A]">
-        <span>{{ t().footer.home }}</span>
-        <svg class="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" width="10" height="10" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 13L13 1M13 13V1H1" stroke-width="1.8" stroke="currentColor" />
-        </svg>
-      </a>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <app-lang-switch variant="dark" />
+        <a [routerLink]="i18n.url()"
+           class="group flex w-max items-center gap-x-2 font-[IBM_Plex_Mono] text-[0.6875rem] tracking-wider text-[#ADAEA5] uppercase transition-colors duration-200 hover:text-[#FF503A]">
+          <span>{{ t().footer.home }}</span>
+          <svg class="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" width="10" height="10" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 13L13 1M13 13V1H1" stroke-width="1.8" stroke="currentColor" />
+          </svg>
+        </a>
+      </div>
     </div>
   </div>
 </footer>

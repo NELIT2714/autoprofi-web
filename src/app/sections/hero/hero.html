@@ -10,12 +10,12 @@
         {{ t().hero.text }}
       </p>
       <div class="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-x-8">
-        <button type="button"
-                class="group flex h-13 cursor-pointer items-center gap-x-8 bg-[#FF503A] px-5 font-semibold text-[#171816] transition-colors duration-200 hover:bg-white">
+        <a [routerLink]="i18n.url()" fragment="valuation"
+           class="group flex h-13 cursor-pointer items-center gap-x-8 bg-[#FF503A] px-5 font-semibold text-[#171816] transition-colors duration-200 hover:bg-white">
           <span>{{ t().hero.cta }}</span>
           <img class="transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5" ngSrc="/icons/link-arrow.svg" alt="" width="14" height="14">
-        </button>
-        <a href="/#"
+        </a>
+        <a [routerLink]="i18n.url()" fragment="why-us"
            class="group flex items-center gap-x-2 text-[0.9375rem] text-white transition-colors duration-200 hover:text-[#FF503A]">
           <span>{{ t().hero.why }}</span>
           <img class="transition-transform duration-200 group-hover:translate-x-1" ngSrc="/icons/arrow-right.svg" alt="" width="12" height="12">
@@ -27,12 +27,13 @@
       <div class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-[clamp(1.5rem,0.25rem+4vw,6.25rem)]">
         <span class="hidden text-[clamp(0.8125rem,0.7rem+0.4vw,1rem)] font-light text-[#c6c8bf] md:inline">{{ t().hero.location }}</span>
         <a href="tel:+380999573405"
-           class="whitespace-nowrap text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed] transition-colors duration-200 hover:text-[#FF503A]">+38 099 957 34 05</a>
+           class="whitespace-nowrap text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed] transition-colors duration-200 hover:text-[#FF503A]">
+          +380 99 957 34 05
+        </a>
         <span class="whitespace-nowrap text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed]">{{ t().hero.hours }}</span>
       </div>
 
-      <a href="/#steps" class="group flex shrink-0 items-center gap-x-[clamp(0.75rem,0.4rem+1.2vw,1.75rem)] text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed]">
-        <span>{{ t().hero.steps }}</span>
+      <a [routerLink]="i18n.url()" fragment="steps" class="group flex shrink-0 items-center gap-x-[clamp(0.75rem,0.4rem+1.2vw,1.75rem)] text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed]">        <span>{{ t().hero.steps }}</span>
         <svg class="shrink-0 transition-transform duration-200 group-hover:translate-y-0.5" width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M6.58333 0.75V15.75M12.4167 9.91667L6.58333 15.75L0.75 9.91667" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="#FF503A" />
         </svg>

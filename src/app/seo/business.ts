@@ -1,37 +1,9 @@
-import { Lang } from '../i18n/i18n';
+import { DICTIONARIES, Lang } from '../i18n/i18n';
 
 export const SITE_URL = 'https://autoprofi.kh.ua';
 
-const TEXT = {
-  uk: {
-    description:
-      'Викуп автомобілів у Харкові: онлайн-оцінка за описом, огляд і гроші в день угоди.',
-    street: 'вул. Валківська, 1',
-    locality: 'Пісочин',
-    city: 'Харків',
-    region: 'Харківська область',
-  },
-  ru: {
-    description:
-      'Выкуп автомобилей в Харькове: онлайн-оценка по описанию, осмотр и деньги в день сделки.',
-    street: 'ул. Валковская, 1',
-    locality: 'Песочин',
-    city: 'Харьков',
-    region: 'Харьковская область',
-  },
-} satisfies Record<
-  Lang,
-  {
-    description: string;
-    street: string;
-    locality: string;
-    city: string;
-    region: string;
-  }
->;
-
 export function buildBusinessSchema(lang: Lang) {
-  const text = TEXT[lang];
+  const b = DICTIONARIES[lang].business;
 
   return {
     '@context': 'https://schema.org',
@@ -43,15 +15,15 @@ export function buildBusinessSchema(lang: Lang) {
     // image: `${SITE_URL}/images/og-cover.jpg`,
     // logo: `${SITE_URL}/images/logo.png`,
 
-    description: text.description,
-    areaServed: { '@type': 'City', name: text.city },
+    description: b.description,
+    areaServed: { '@type': 'City', name: b.city },
 
     address: {
       '@type': 'PostalAddress',
-      streetAddress: text.street,
+      streetAddress: b.street,
       postalCode: '62416',
-      addressLocality: text.locality,
-      addressRegion: text.region,
+      addressLocality: b.locality,
+      addressRegion: b.region,
       addressCountry: 'UA',
     },
 

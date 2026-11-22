@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { I18n } from '../../i18n/i18n';
 import { NgOptimizedImage } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { I18n } from '../../i18n/i18n';
 
 @Component({
   selector: 'app-hero',
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, RouterLink],
   templateUrl: './hero.html',
 })
 export class Hero {
-  protected readonly t = inject(I18n).t;
+  protected readonly i18n = inject(I18n);
+  protected readonly t = this.i18n.t;
 }

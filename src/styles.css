@@ -25,3 +25,9 @@ body {
     @apply text-[#555851] text-[0.9375rem];
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

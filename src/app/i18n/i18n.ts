@@ -7,11 +7,12 @@ export type Lang = 'uk' | 'ru';
 export const LANGS: Lang[] = ['uk', 'ru'];
 export const DEFAULT_LANG: Lang = 'uk';
 
-const DICTIONARIES = { uk, ru };
+export const DICTIONARIES = { uk, ru };
 
 export function isLang(value: string | null): value is Lang {
   return LANGS.includes(value as Lang);
 }
+
 
 @Injectable({ providedIn: 'root' })
 export class I18n {

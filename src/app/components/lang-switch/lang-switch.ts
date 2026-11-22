@@ -4,9 +4,11 @@ import {
   ElementRef,
   HostListener,
   inject,
+  input,
   signal,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Scroll } from '@angular/router';
+import { filter, take } from 'rxjs';
 import { DEFAULT_LANG, I18n, Lang, isLang } from '../../i18n/i18n';
 
 @Component({
@@ -20,6 +22,8 @@ export class LangSwitch {
   protected i18n = inject(I18n);
   protected open = signal(false);
 
+  readonly variant = input<'light' | 'dark'>('light');
+
   protected options: { code: Lang; short: string; label: string }[] = [
     { code: 'ru', short: 'RU', label: 'Русский' },
     { code: 'uk', short: 'UA', label: 'Українська' },
@@ -31,16 +35,26 @@ export class LangSwitch {
 
     this.i18n.remember(code);
 
-    const [rest, fragment] = this.router.url.split('#');
+    const [rest] = this.router.url.split('#');
     const [path, query] = rest.split('?');
     const segments = path.split('/').filter(Boolean);
     if (isLang(segments[0]) && segments[0] !== DEFAULT_LANG) segments.shift();
 
     let target = this.i18n.url(segments.join('/'), code);
     if (query) target += '?' + query;
-    if (fragment) target += '#' + fragment;
 
-    this.router.navigateByUrl(target);
+    const y = window.scrollY;
+
+    this.router.events
+      .pipe(
+        filter((e): e is Scroll => e instanceof Scroll),
+        take(1),
+      )
+      .subscribe(() => window.scrollTo({ top: y, behavior: 'instant' }));
+
+    this.router.navigateByUrl(target).then(() => {
+      window.scrollTo({ top: y, behavior: 'instant' });
+    });
   }
 
   @HostListener('document:click', ['$event'])
