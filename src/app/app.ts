@@ -1,17 +1,21 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 import { Header } from './layout/header/header';
-import { Hero } from './sections/hero/hero';
-import { Valuation } from './sections/valuation/valuation';
-import { Steps } from './sections/steps/steps';
-import { Faq } from './sections/faq/faq';
 import { Footer } from './layout/footer/footer';
+import { I18n } from './i18n/i18n';
+import { JsonLd } from './seo/json-ld';
+import { buildBusinessSchema } from './seo/business';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, Hero, Valuation, Steps, Faq, Footer],
+  imports: [RouterOutlet, Header, Footer],
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('web');
+  constructor() {
+    const jsonLd = inject(JsonLd);
+    const lang = inject(I18n).lang;
+    effect(() => jsonLd.set('ld-business', buildBusinessSchema(lang())));
+  }
 }

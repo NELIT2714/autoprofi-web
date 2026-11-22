@@ -2,10 +2,13 @@
   <div class="absolute bottom-0 left-0 -z-10 h-lvh w-full bg-[url('/images/bg-hero.webp')] bg-cover bg-no-repeat bg-position-[25%_bottom] md:bg-center"></div>
   <div class="container px-4 mx-auto flex flex-col">
     <div class="flex min-w-0 flex-1 flex-col justify-center py-12 lg:py-0">
-      <h1 class="title leading-[1.1] text-[clamp(3rem,1.782rem+4.131vw,5.5rem)] text-[#F5F3ED] uppercase">Выкуп авто<br><span
-        class="text-[#FF503A]">в Харькове</span></h1>
-      <p class="mt-8 max-w-md text-[clamp(1rem,0.956rem+0.188vw,1.125rem)] text-[#F5F3ED]">Расскажите о машине. Мы оценим её по описанию и согласуем осмотр в
-        Харькове.</p>
+      <h1 class="title leading-[1.1] text-[clamp(3rem,1.782rem+4.131vw,5.5rem)] text-[#F5F3ED] uppercase">
+        {{ t().hero.title }}
+        <br>
+        <span class="text-[#FF503A]">{{ t().hero.titleAccent }}</span></h1>
+      <p class="mt-8 max-w-md text-[clamp(1rem,0.956rem+0.188vw,1.125rem)] text-[#F5F3ED]">
+        Расскажите о машине: оценим её по описанию, согласуем осмотр и оформим сделку. Деньги выплачиваем в день сделки.
+      </p>
       <div class="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-x-8">
         <button type="button"
                 class="group flex h-13 cursor-pointer items-center gap-x-8 bg-[#FF503A] px-5 font-semibold text-[#171816] transition-colors duration-200 hover:bg-white">
