@@ -1,0 +1,46 @@
+<section id="details" class="bg-[#F4F3EE]">
+  <div class="container mx-auto px-4 py-10 md:py-12.5">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-0">
+      <div class="flex flex-col gap-y-6 lg:gap-y-8 lg:pr-16 xl:pr-20">
+        <div class="flex flex-col gap-y-4">
+          <h2 class="title text-[#171816] text-[clamp(1.75rem,1.2rem+2vw,3rem)] leading-[1.15]" [innerHTML]="t().details.price.title"></h2>
+          <p class="text-[#555851] text-[clamp(0.9rem,0.8rem+0.4vw,1.15rem)] leading-relaxed max-w-md">{{ t().details.price.text }}</p>
+        </div>
+
+        <ul class="border-b border-[#cfd0c7]">
+          @for (item of t().details.price.items; track $index) {
+            <li class="flex items-center gap-x-3 border-t border-[#cfd0c7] py-3.5">
+              <span class="h-0.5 w-2 shrink-0 bg-[#ff503a]"></span>
+              <span class="text-[#171816] text-[clamp(0.875rem,0.8rem+0.3vw,1rem)]">{{ item }}</span>
+            </li>
+          }
+        </ul>
+
+        <a href="/#valuation" class="group flex w-fit items-center gap-x-4 text-[0.875rem] font-bold text-[#171816]">
+          <span>{{ t().details.price.link }}</span>
+          <svg class="text-[#ff503a] transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5" width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 13L13 1M13 13V1H1" stroke-width="1.8" stroke="currentColor" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-y-6 border-t border-[#cfd0c7] pt-10 lg:gap-y-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-16 xl:pl-20">
+        <div class="flex flex-col gap-y-4">
+          <h2 class="title text-[#171816] text-[clamp(1.75rem,1.2rem+2vw,3rem)] leading-[1.15]" [innerHTML]="t().details.docs.title"></h2>
+          <p class="text-[#555851] text-[clamp(0.9rem,0.8rem+0.4vw,1.15rem)] leading-relaxed max-w-md">{{ t().details.docs.text }}</p>
+        </div>
+
+        <ul class="border-b border-[#cfd0c7]">
+          @for (item of t().details.docs.items; track $index) {
+            <li class="flex items-center gap-x-3 border-t border-[#cfd0c7] py-3.5">
+              <span class="h-0.5 w-2 shrink-0 bg-[#ff503a]"></span>
+              <span class="text-[#171816] text-[clamp(0.875rem,0.8rem+0.3vw,1rem)]">{{ item }}</span>
+            </li>
+          }
+        </ul>
+
+        <p class="text-[#555851] text-[0.875rem]">{{ t().details.docs.note }}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<div class="relative">
+  <button type="button"
+          class="flex h-10 cursor-pointer items-center gap-x-2 px-2 font-semibold text-[#171816] transition-colors duration-200 hover:text-[#ff503a]"
+          aria-haspopup="listbox"
+          [attr.aria-expanded]="open()"
+          (click)="open.set(!open())">
+    <span>{{ i18n.lang() === 'ru' ? 'RU' : 'UA' }}</span>
+    <svg class="transition-transform duration-200" [class.rotate-180]="open()" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" />
+    </svg>
+  </button>
+
+  @if (open()) {
+    <ul class="absolute right-0 top-full z-50 mt-1 min-w-40 border border-[#cfd0c7] bg-[#F5F3ED] shadow-lg" role="listbox">
+      @for (o of options; track o.code) {
+        <li role="option" [attr.aria-selected]="i18n.lang() === o.code">
+          <button type="button"
+                  class="flex w-full cursor-pointer items-center justify-between gap-x-4 px-4 py-3 text-left transition-colors duration-200 hover:bg-[#E9E8E0]"
+                  [class.font-bold]="i18n.lang() === o.code"
+                  (click)="pick(o.code)">
+            <span>{{ o.label }}</span>
+            <span class="font-[IBM_Plex_Mono] text-[0.75rem] text-[#555851]">{{ o.short }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

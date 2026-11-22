@@ -5,10 +5,13 @@ import { Steps } from '../../sections/steps/steps';
 import { Faq } from '../../sections/faq/faq';
 import { I18n } from '../../i18n/i18n';
 import { PageSeo } from '../../seo/page-seo';
+import { WhyUs } from '../../sections/why-us/why-us';
+import { Cars } from '../../sections/cars/cars';
+import { Details } from '../../sections/details/details';
 
 @Component({
   selector: 'app-home',
-  imports: [Hero, Valuation, Steps, Faq],
+  imports: [Hero, WhyUs, Cars, Steps, Details, Valuation, Faq],
   templateUrl: './home.html',
 })
 export class Home {

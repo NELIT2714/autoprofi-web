@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { ru } from './ru';
 import { uk } from './uk';
 
@@ -16,6 +16,7 @@ export function isLang(value: string | null): value is Lang {
 @Injectable({ providedIn: 'root' })
 export class I18n {
   private doc = inject(DOCUMENT);
+  private browser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly lang = signal<Lang>(DEFAULT_LANG);
   readonly t = computed(() => DICTIONARIES[this.lang()]);
@@ -28,5 +29,22 @@ export class I18n {
   url(path = '', lang: Lang = this.lang()): string {
     const prefix = lang === DEFAULT_LANG ? '' : lang;
     return '/' + [prefix, path].filter(Boolean).join('/');
+  }
+
+  saved(): Lang | null {
+    if (!this.browser) return null;
+    try {
+      const value = localStorage.getItem('lang');
+      return isLang(value) ? value : null;
+    } catch {
+      return null;
+    }
+  }
+
+  remember(lang: Lang): void {
+    if (!this.browser) return;
+    try {
+      localStorage.setItem('lang', lang);
+    } catch {}
   }
 }

@@ -1,0 +1,23 @@
+<section id="why-us">
+  <div class="container mx-auto px-4 py-12.5 flex flex-col gap-y-16.5">
+    <div class="flex flex-col gap-y-5.5">
+      <div class="flex items-center gap-x-3.5">
+        <div class="bg-[#ff503a] h-0.75 w-6"></div>
+        <span class="font-[IBM_Plex_Mono] text-[#555851] text-[clamp(0.8125rem,0.761rem+0.221vw,0.9375rem)] uppercase">{{ t().whyUs.label }}</span>
+      </div>
+      <h2 class="title text-[#171816] uppercase text-[clamp(2rem,3.28vw,3.9375rem)] leading-[1.2]">{{ t().whyUs.title }}</h2>
+    </div>
+
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      @for (item of t().whyUs.items; track $index; let i = $index) {
+        <div class="flex flex-col gap-y-3 border-t border-[#cfd0c7] pt-4">
+          <img [src]="`/icons/${icons[i]}.svg`" alt="" width="24" height="24" class="size-8">
+          <div class="flex flex-col gap-y-3">
+            <span class="text-[clamp(1.1rem,0.95rem+0.6vw,1.5rem)] font-bold">{{ item.title }}</span>
+            <p class="text-[#555851] text-[clamp(0.9rem,0.8rem+0.4vw,1.15rem)] leading-relaxed">{{ item.text }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

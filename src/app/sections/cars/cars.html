@@ -1,0 +1,36 @@
+<section id="cars" class="bg-[#E9E8E0]">
+  <div class="container mx-auto px-4 py-10 md:py-12.5">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-20">
+      <div class="flex flex-col gap-y-8 lg:gap-y-10">
+        <div class="flex flex-col gap-y-5.5">
+          <div class="flex items-center gap-x-3.5">
+            <div class="bg-[#ff503a] h-0.75 w-6"></div>
+            <span class="font-[IBM_Plex_Mono] text-[#555851] text-[clamp(0.8125rem,0.761rem+0.221vw,0.9375rem)] uppercase">{{ t().cars.label }}</span>
+          </div>
+          <h2 class="title text-[#171816] uppercase text-[clamp(2rem,1.4rem+2.2vw,3.25rem)] leading-[1.15]" [innerHTML]="t().cars.title"></h2>
+        </div>
+
+        <p class="text-[#555851] text-[clamp(0.9rem,0.8rem+0.4vw,1.15rem)] leading-relaxed max-w-md">{{ t().cars.text }}</p>
+
+<!--        <div class="relative h-full min-h-60 flex-1">-->
+<!--          <img-->
+<!--            ngSrc="/images/cars.webp"-->
+<!--            alt=""-->
+<!--            fill-->
+<!--            sizes="(min-width: 1024px) 45vw, 100vw"-->
+<!--            class="object-cover"-->
+<!--          >-->
+<!--        </div>-->
+      </div>
+
+      <div class="flex flex-col gap-y-8 lg:pt-2">
+        @for (item of t().cars.items; track $index) {
+          <div class="flex flex-col gap-y-3 border-t border-[#cfd0c7] pt-4">
+            <span class="title text-[#171816] text-[clamp(1.1rem,0.95rem+0.6vw,1.5rem)] font-bold">{{ item.title }}</span>
+            <p class="text-[#555851] text-[clamp(0.9rem,0.8rem+0.4vw,1.15rem)] leading-relaxed">{{ item.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
