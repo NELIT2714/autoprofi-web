@@ -1,16 +1,20 @@
 {
   "name": "web",
   "version": "0.0.0",
+  "private": true,
+  "packageManager": "npm@11.21.2",
+  "engines": {
+    "node": "^24.0.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "audit": "npm audit --audit-level=high",
     "serve:ssr:web": "node dist/web/server/server.mjs"
   },
-  "private": true,
-  "packageManager": "npm@11.21.2",
   "dependencies": {
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
@@ -30,7 +34,7 @@
     "@angular/compiler-cli": "^21.2.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/express": "^5.0.1",
-    "@types/node": "^20.17.19",
+    "@types/node": "^24.0.0",
     "jsdom": "^28.0.0",
     "postcss": "^8.5.3",
     "prettier": "^3.8.1",
