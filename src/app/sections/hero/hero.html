@@ -1,18 +1,18 @@
-<section class="relative isolate flex min-h-[calc(100svh-80px)] items-center overflow-hidden">
+<section class="relative isolate flex min-h-[calc(100svh-80px)] items-stretch overflow-hidden">
   <div class="absolute bottom-0 left-0 -z-10 h-lvh w-full bg-[url('/images/bg-hero.webp')] bg-cover bg-no-repeat bg-position-[25%_bottom] md:bg-center"></div>
   <div class="container px-4 mx-auto flex flex-col">
-    <div class="flex min-w-0 flex-1 flex-col justify-center py-12 lg:py-0">
+    <div class="flex min-w-0 flex-1 flex-col justify-center py-12">
       <h1 class="title leading-[1.1] text-[clamp(3rem,1.782rem+4.131vw,5.5rem)] text-[#F5F3ED] uppercase">
         {{ t().hero.title }}
         <br>
         <span class="text-[#FF503A]">{{ t().hero.titleAccent }}</span></h1>
       <p class="mt-8 max-w-md text-[clamp(1rem,0.956rem+0.188vw,1.125rem)] text-[#F5F3ED]">
-        Расскажите о машине: оценим её по описанию, согласуем осмотр и оформим сделку. Деньги выплачиваем в день сделки.
+        {{ t().hero.text }}
       </p>
       <div class="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-x-8">
         <button type="button"
                 class="group flex h-13 cursor-pointer items-center gap-x-8 bg-[#FF503A] px-5 font-semibold text-[#171816] transition-colors duration-200 hover:bg-white">
-          <span>Оценить автомобиль</span>
+          <span>{{ t().hero.cta }}</span>
           <svg class="transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5"
                width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 13L13 1M13 13V1H1" stroke-width="1.8" stroke="currentColor" />
@@ -20,13 +20,29 @@
         </button>
         <a href="/#"
            class="group flex items-center gap-x-2 text-[0.9375rem] text-white transition-colors duration-200 hover:text-[#FF503A]">
-          <span>Авто в продаже</span>
+          <span>{{ t().hero.why }}</span>
           <svg class="transition-transform duration-200 group-hover:translate-x-1" width="12" height="12"
                viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 6H11M7 2L11 6L7 10" stroke-width="1.5" stroke="currentColor" />
           </svg>
         </a>
       </div>
+    </div>
+
+    <div class="flex items-end justify-between gap-x-[clamp(1rem,0.5rem+2vw,2rem)] border-t border-[#41443d] pb-5 pt-4 sm:items-center sm:pt-3">
+      <div class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-[clamp(1.5rem,0.25rem+4vw,6.25rem)]">
+        <span class="hidden text-[clamp(0.8125rem,0.7rem+0.4vw,1rem)] font-light text-[#c6c8bf] md:inline">{{ t().hero.location }}</span>
+        <a href="tel:+380999573405"
+           class="whitespace-nowrap text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed] transition-colors duration-200 hover:text-[#FF503A]">+38 099 957 34 05</a>
+        <span class="whitespace-nowrap text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed]">{{ t().hero.hours }}</span>
+      </div>
+
+      <a href="/#steps" class="group flex shrink-0 items-center gap-x-[clamp(0.75rem,0.4rem+1.2vw,1.75rem)] text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed]">
+        <span>{{ t().hero.steps }}</span>
+        <svg class="shrink-0 transition-transform duration-200 group-hover:translate-y-0.5" width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M6.58333 0.75V15.75M12.4167 9.91667L6.58333 15.75L0.75 9.91667" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="#FF503A" />
+        </svg>
+      </a>
     </div>
   </div>
 </section>

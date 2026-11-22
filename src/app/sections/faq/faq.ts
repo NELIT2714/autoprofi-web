@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { I18n } from '../../i18n/i18n';
 
 @Component({
   selector: 'app-faq',
@@ -6,22 +7,7 @@ import { Component, signal } from '@angular/core';
   templateUrl: './faq.html',
 })
 export class Faq {
-  protected readonly faqs = [
-    {
-      question: 'От чего зависит цена?',
-      answer:
-        'От модели, года, пробега и состояния. Предварительную оценку уточняем после осмотра.',
-    },
-    {
-      question: 'Можно продать авто после ДТП?',
-      answer: 'Да. Оценим с учётом повреждений и согласуем условия после осмотра.',
-    },
-    {
-      question: 'Где проходит осмотр?',
-      answer: 'В Харькове, в удобное для вас время и место, которое согласуем заранее.',
-    },
-  ];
-
+  protected readonly t = inject(I18n).t;
   protected readonly openIndex = signal<number | null>(0);
 
   protected toggle(index: number) {

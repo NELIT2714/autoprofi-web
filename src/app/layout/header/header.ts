@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { I18n } from '../../i18n/i18n';
 
 interface NavLink {
   label: string;
@@ -12,13 +13,8 @@ interface NavLink {
   templateUrl: './header.html',
 })
 export class Header {
-  protected readonly links: NavLink[] = [
-    { label: 'Продать авто', href: '/sell' },
-    { label: 'Купить авто', href: '/buy' },
-    { label: 'Этапы работы', href: '/steps' },
-    { label: 'Блог', href: '/blog' },
-  ];
-
+  protected readonly t = inject(I18n).t;
+  protected readonly links: NavLink[] = this.t().header.nav;
   protected readonly open = signal(false);
 
   protected toggle() {

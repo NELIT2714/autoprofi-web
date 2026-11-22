@@ -5,12 +5,10 @@ import { Steps } from '../../sections/steps/steps';
 import { Faq } from '../../sections/faq/faq';
 import { I18n } from '../../i18n/i18n';
 import { PageSeo } from '../../seo/page-seo';
-import { Advantages } from '../../sections/advantages/advantages';
-import { Vehicles } from '../../sections/vehicles/vehicles';
 
 @Component({
   selector: 'app-home',
-  imports: [Hero, Valuation, Steps, Faq, Advantages, Vehicles],
+  imports: [Hero, Valuation, Steps, Faq],
   templateUrl: './home.html',
 })
 export class Home {

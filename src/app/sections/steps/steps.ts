@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { I18n } from '../../i18n/i18n';
 
 interface Step {
   title: string;
@@ -11,10 +12,5 @@ interface Step {
   templateUrl: './steps.html',
 })
 export class Steps {
-  protected readonly steps: Step[] = [
-    { title: 'Заявка', text: 'Оставьте номер телефона и модель автомобиля' },
-    { title: 'Оценка', text: 'Обсудим состояние, пробег и предварительную цену' },
-    { title: 'Осмотр', text: 'Встретимся в Харькове и согласуем итоговую цену' },
-    { title: 'Сделка', text: 'Согласуем расчёт и оформим передачу автомобиля' },
-  ];
+  protected readonly t = inject(I18n).t;
 }

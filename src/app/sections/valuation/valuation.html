@@ -5,41 +5,41 @@
         <div class="flex flex-col gap-y-5.5">
           <div class="flex items-center gap-x-3.5">
             <div class="h-0.75 w-6 bg-[#ff503a]"></div>
-            <span class="font-[IBM_Plex_Mono] text-[0.9375rem] text-[#555851] uppercase">Заявка на оценку</span>
+            <span class="font-[IBM_Plex_Mono] text-[0.9375rem] text-[#555851] uppercase">{{ t().valuation.label }}</span>
           </div>
-          <h2 class="title text-[clamp(2.25rem,3.28vw,3.9375rem)] leading-[1.15] text-[#171816] uppercase lg:w-max">Сколько стоит<br>Ваше авто?</h2>
+          <h2 class="title text-[clamp(2.25rem,3.28vw,3.9375rem)] leading-[1.15] text-[#171816] uppercase lg:w-max" [innerHTML]="t().valuation.title"></h2>
         </div>
-        <p class="font-[Inter] text-[#555851] lg:w-max">Оставьте контакты - менеджер <br class="hidden sm:block">перезвонит и уточнит детали.</p>
+        <p class="font-[Inter] text-[#555851] lg:w-max" [innerHTML]="t().valuation.text"></p>
       </div>
 
       <form class="flex w-full flex-col gap-y-6 sm:gap-y-8">
         <div class="flex flex-col gap-5 sm:flex-row sm:gap-x-8">
           <div class="input w-full sm:w-[45%]">
-            <label for="name">Ваше имя</label>
-            <input name="name" id="name" type="text" placeholder="Как к вам обращаться?">
+            <label for="name">{{ t().valuation.nameLabel }}</label>
+            <input name="name" id="name" type="text" placeholder="{{ t().valuation.namePlaceholder }}">
           </div>
 
           <div class="input w-full sm:w-[55%]">
-            <label for="phone">Телефон</label>
+            <label for="phone">{{ t().valuation.phoneLabel }}</label>
             <input name="phone" id="phone" type="tel" inputmode="tel">
           </div>
         </div>
 
         <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-x-8">
           <div class="input w-full sm:flex-1">
-            <label for="car">Автомобиль</label>
-            <input name="car" id="car" type="text" placeholder="Например, Toyota Camry 2016">
+            <label for="car">{{ t().valuation.carLabel }}</label>
+            <input name="car" id="car" type="text" placeholder="{{ t().valuation.carPlaceholder }}">
           </div>
 
           <button type="button" class="group flex h-13 w-full cursor-pointer items-center justify-between gap-x-8 bg-[#FF503A] px-5 font-semibold text-[#171816] transition-colors duration-200 hover:bg-white sm:w-auto sm:shrink-0">
-            <span>Отправить заявку</span>
+            <span>{{ t().valuation.submit }}</span>
             <svg class="transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 13L13 1M13 13V1H1" stroke-width="1.8" stroke="currentColor" />
             </svg>
           </button>
         </div>
 
-        <p class="text-[#555851]">Менеджер свяжется с вами по поводу оценки.</p>
+        <p class="text-[#555851]">{{ t().valuation.note }}</p>
       </form>
     </div>
   </div>
