@@ -24,10 +24,10 @@ export const ru: Dictionary = {
 
   header: {
     nav: [
-      { label: 'Продать авто', href: 'valuation' },
-      { label: 'Купить авто', href: 'catalog' },
+      // { label: 'Продать авто', href: 'valuation' },
+      // { label: 'Купить авто', href: 'catalog' },
       { label: 'Этапы выкупа', href: 'steps' },
-      { label: 'Блог', href: 'blog' },
+      // { label: 'Блог', href: 'blog' },
     ],
     request_call: 'Заказать звонок',
   },

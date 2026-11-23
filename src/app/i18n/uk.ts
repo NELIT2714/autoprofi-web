@@ -22,10 +22,10 @@ export const uk = {
 
   header: {
     nav: [
-      { label: 'Продати авто', href: 'valuation' },
-      { label: 'Купити авто', href: 'catalog' },
+      // { label: 'Продати авто', href: 'valuation' },
+      // { label: 'Купити авто', href: 'catalog' },
       { label: 'Етапи викупу', href: 'steps' },
-      { label: 'Блог', href: 'blog' },
+      // { label: 'Блог', href: 'blog' },
     ],
     request_call: 'Замовити дзвінок',
   },
