@@ -1,17 +1,10 @@
-import { Component, DestroyRef, afterNextRender, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { I18n } from '../../i18n/i18n';
-import { GOOGLE_REVIEWS_URL, REVIEWS_POOL, Review, SHOWN_COUNT } from '../../seo/reviews';
 
-const INTERVAL = 7000;
-
-function pickRandom<T>(items: T[], count: number): T[] {
-  const a = [...items];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a.slice(0, count);
-}
+// Если эти значения уже вынесены в общий конфиг сайта, подставьте импорт оттуда.
+const PHONE_HREF = 'tel:+380999573405';
+const PHONE_TEXT = '+380 99 957 34 05';
+const MAP_URL = 'https://maps.app.goo.gl/QSdqrfs5XoodFeEfA';
 
 @Component({
   selector: 'app-faq',
@@ -23,38 +16,11 @@ export class Faq {
   protected readonly t = this.i18n.t;
   protected readonly openIndex = signal<number | null>(0);
 
-  protected readonly reviews = signal<Review[]>(REVIEWS_POOL.slice(0, SHOWN_COUNT));
-  protected readonly active = signal(0);
-  protected readonly ready = signal(false);
-  protected readonly reviewsUrl = GOOGLE_REVIEWS_URL;
-
-  private paused = false;
-
-  constructor() {
-    const destroyRef = inject(DestroyRef);
-
-    afterNextRender(() => {
-      this.reviews.set(pickRandom(REVIEWS_POOL, SHOWN_COUNT));
-      this.ready.set(true);
-
-      const timer = setInterval(() => {
-        if (!this.paused) this.move(1);
-      }, INTERVAL);
-      destroyRef.onDestroy(() => clearInterval(timer));
-    });
-  }
+  protected readonly phoneHref = PHONE_HREF;
+  protected readonly phoneText = PHONE_TEXT;
+  protected readonly mapUrl = MAP_URL;
 
   protected toggle(index: number) {
     this.openIndex.update((current) => (current === index ? null : index));
-  }
-
-  protected setPaused(value: boolean): void {
-    this.paused = value;
-  }
-
-  protected move(direction: 1 | -1): void {
-    const total = this.reviews().length;
-    if (total < 2) return;
-    this.active.update((i) => (i + direction + total) % total);
   }
 }
