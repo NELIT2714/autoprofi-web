@@ -21,7 +21,7 @@
             @for (p of photos; track p.src; let i = $index) {
               <img
                 [src]="p.src"
-                [alt]="p.alt"
+                [alt]="p.alt[i18n.lang()]"
                 width="1200"
                 height="675"
                 decoding="async"
@@ -66,7 +66,7 @@
       <div class="flex flex-col gap-y-8 lg:pt-2">
         @for (item of t().cars.items; track $index) {
           <div class="flex flex-col gap-y-3 border-t border-[#cfd0c7] pt-4">
-            <span class="title text-[#171816] text-[clamp(1.1rem,0.95rem+0.6vw,1.5rem)] font-bold">{{ item.title }}</span>
+            <h3 class="title text-[#171816] text-[clamp(1.1rem,0.95rem+0.6vw,1.5rem)] font-bold">{{ item.title }}</h3>
             <p class="text-[#555851] text-[clamp(0.9rem,0.8rem+0.4vw,1.15rem)] leading-relaxed">{{ item.text }}</p>
           </div>
         }
