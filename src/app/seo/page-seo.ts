@@ -9,7 +9,7 @@ const OG_LOCALE: Record<Lang, string> = {
   ru: 'ru_UA',
 };
 
-const SITE_NAME = 'Autoprofi.kh';
+const SITE_NAME = 'AutoProfi';
 
 @Injectable({ providedIn: 'root' })
 export class PageSeo {
@@ -43,8 +43,7 @@ export class PageSeo {
     canonical: string,
     lang: Lang,
   ): void {
-    // og-cover.jpg для DEFAULT_LANG, og-cover-<lang>.jpg для остальных (например og-cover-ru.jpg)
-    const image = `${SITE_URL}/images/og-cover${lang === DEFAULT_LANG ? '' : `-${lang}`}.jpg`;
+    const image = `${SITE_URL}/images/og-image-${lang}.jpg`;
 
     this.meta.updateTag({ property: 'og:type', content: 'website' });
     this.meta.updateTag({ property: 'og:site_name', content: SITE_NAME });
@@ -52,10 +51,10 @@ export class PageSeo {
     this.meta.updateTag({ property: 'og:description', content: seo.description });
     this.meta.updateTag({ property: 'og:url', content: canonical });
     this.meta.updateTag({ property: 'og:locale', content: OG_LOCALE[lang] });
-    // this.meta.updateTag({ property: 'og:image', content: image });
-    // this.meta.updateTag({ property: 'og:image:width', content: '1200' });
-    // this.meta.updateTag({ property: 'og:image:height', content: '630' });
-    // this.meta.updateTag({ property: 'og:image:alt', content: seo.title });
+    this.meta.updateTag({ property: 'og:image', content: image });
+    this.meta.updateTag({ property: 'og:image:width', content: '1200' });
+    this.meta.updateTag({ property: 'og:image:height', content: '630' });
+    this.meta.updateTag({ property: 'og:image:alt', content: seo.title });
 
     this.doc.head
       .querySelectorAll('meta[property="og:locale:alternate"]')
@@ -71,7 +70,7 @@ export class PageSeo {
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.meta.updateTag({ name: 'twitter:title', content: seo.title });
     this.meta.updateTag({ name: 'twitter:description', content: seo.description });
-    // this.meta.updateTag({ name: 'twitter:image', content: image });
+    this.meta.updateTag({ name: 'twitter:image', content: image });
   }
 
   private addLink(rel: string, href: string, hreflang?: string): void {
