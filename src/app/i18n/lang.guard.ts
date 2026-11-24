@@ -13,10 +13,10 @@ export const langGuard: CanActivateFn = (route, state) => {
   firstVisit = false;
 
   if (isFirst) {
-    const saved = i18n.saved();
+    const preferred = i18n.saved() ?? i18n.browserLang();
     const isHome = state.url.split(/[?#]/)[0] === i18n.url('', lang);
-    if (saved && saved !== lang && isHome) {
-      return router.parseUrl(i18n.url('', saved));
+    if (preferred && preferred !== lang && isHome) {
+      return router.parseUrl(i18n.url('', preferred));
     }
   }
 

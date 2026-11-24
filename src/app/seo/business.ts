@@ -12,8 +12,8 @@ export function buildBusinessSchema(lang: Lang) {
     name: 'AutoProfi',
     url: `${SITE_URL}/`,
     telephone: '+380999573405',
-    // image: `${SITE_URL}/images/og-cover.jpg`,
-    // logo: `${SITE_URL}/images/logo.png`,
+    image: `${SITE_URL}/images/og-cover-${lang}.jpg`,
+    logo: `${SITE_URL}/images/logo.svg`,
 
     description: b.description,
     areaServed: { '@type': 'City', name: b.city },

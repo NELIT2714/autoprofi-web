@@ -13,7 +13,6 @@ export function isLang(value: string | null): value is Lang {
   return LANGS.includes(value as Lang);
 }
 
-
 @Injectable({ providedIn: 'root' })
 export class I18n {
   private doc = inject(DOCUMENT);
@@ -40,6 +39,16 @@ export class I18n {
     } catch {
       return null;
     }
+  }
+
+  browserLang(): Lang | null {
+    if (!this.browser) return null;
+    const list = navigator.languages?.length ? navigator.languages : [navigator.language];
+    for (const tag of list) {
+      const code = (tag ?? '').toLowerCase().split('-')[0];
+      if (isLang(code)) return code;
+    }
+    return null;
   }
 
   remember(lang: Lang): void {

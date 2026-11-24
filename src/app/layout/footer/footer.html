@@ -2,9 +2,11 @@
   <div class="container mx-auto px-4 pt-10 md:pt-14">
     <div class="grid gap-10 pb-10 md:grid-cols-2 md:pb-12 lg:grid-cols-[1.3fr_0.9fr_1.2fr_1fr] lg:gap-12">
       <div class="flex flex-col gap-y-5">
-        <a [routerLink]="i18n.url()" class="w-max">
-          <img ngSrc="/images/logo-footer.webp" [alt]="t().footer.alt" width="215" height="37" class="h-8 w-auto sm:h-9">
+        <a class="flex items-center gap-x-5" [routerLink]="i18n.url()">
+          <img ngSrc="/images/logo.svg" [alt]="t().footer.alt" width="76" height="46" priority>
+          <span class="text-[#f5f3ed] text-[1.8rem] font-extrabold">AutoProfi</span>
         </a>
+
         <p class="max-w-xs text-[0.9375rem] leading-normal text-[#ADAEA5]">{{ t().footer.text }}</p>
         <ul class="flex flex-wrap gap-x-5 gap-y-2">
           @for (social of socials; track social.href) {

@@ -1,9 +1,10 @@
 <header class="relative z-50 bg-[#F5F3ED]">
   <div class="container mx-auto flex h-20 items-center justify-between px-4">
     <div class="flex items-center xl:gap-x-30">
-      <a [routerLink]="i18n.url()" (click)="close()">
-        <img ngSrc="/images/logo-main.webp" [alt]="t().footer.alt" width="212" height="36" priority
-             class="h-7 w-auto sm:h-9">
+      <a class="flex items-center gap-x-[clamp(0.625rem,0.38rem+1.087vw,1.25rem)]" [routerLink]="i18n.url()" (click)="close()">
+        <img ngSrc="/images/logo.svg" [alt]="t().footer.alt" width="76" height="46" priority
+             class="h-auto w-[clamp(3.25rem,2.663rem+2.609vw,4.75rem)] shrink-0">
+        <span class="whitespace-nowrap text-[#171816] text-[clamp(1.25rem,1.034rem+0.957vw,1.8rem)] font-extrabold">AutoProfi</span>
       </a>
       <ul class="hidden gap-x-8 xl:flex">
         @for (link of t().header.nav; track link.href) {
