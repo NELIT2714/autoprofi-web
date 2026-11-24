@@ -1,12 +1,12 @@
 <section class="relative isolate flex min-h-[calc(100svh-80px)] items-stretch overflow-hidden">
   <div class="absolute bottom-0 left-0 -z-10 h-lvh w-full bg-[url('/images/bg-hero.webp')] bg-cover bg-no-repeat bg-position-[25%_bottom] md:bg-center"></div>
   <div class="container px-4 mx-auto flex flex-col">
-    <div class="flex min-w-0 flex-1 flex-col justify-center py-12">
+    <div class="max-w-120 flex min-w-0 flex-1 flex-col justify-center py-12">
       <h1 class="title leading-[1.1] text-[clamp(3rem,1.782rem+4.131vw,5.5rem)] text-[#F5F3ED] uppercase">
         {{ t().hero.title }}
         <br>
         <span class="text-[#FF503A]">{{ t().hero.titleAccent }}</span></h1>
-      <p class="mt-8 max-w-md text-[clamp(1rem,0.956rem+0.188vw,1.125rem)] text-[#F5F3ED]">
+      <p class="mt-8 text-[clamp(1rem,0.956rem+0.188vw,1.125rem)] text-[#F5F3ED]">
         {{ t().hero.text }}
       </p>
       <div class="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-x-8">
@@ -26,9 +26,9 @@
     <div class="flex items-end justify-between gap-x-[clamp(1rem,0.5rem+2vw,2rem)] border-t border-[#41443d] pb-5 pt-4 sm:items-center sm:pt-3">
       <div class="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-[clamp(1.5rem,0.25rem+4vw,6.25rem)]">
         <span class="hidden text-[clamp(0.8125rem,0.7rem+0.4vw,1rem)] font-light text-[#c6c8bf] md:inline">{{ t().hero.location }}</span>
-        <a href="tel:+380999573405"
+        <a [href]="t().business.phoneHref"
            class="whitespace-nowrap text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed] transition-colors duration-200 hover:text-[#FF503A]">
-          +380 99 957 34 05
+          {{ t().business.phone }}
         </a>
         <span class="whitespace-nowrap text-[clamp(0.875rem,0.75rem+0.5vw,1.1rem)] font-semibold text-[#f5f3ed]">{{ t().hero.hours }}</span>
       </div>

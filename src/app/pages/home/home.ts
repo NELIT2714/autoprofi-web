@@ -8,10 +8,11 @@ import { PageSeo } from '../../seo/page-seo';
 import { WhyUs } from '../../sections/why-us/why-us';
 import { Cars } from '../../sections/cars/cars';
 import { Details } from '../../sections/details/details';
+import { About } from '../../sections/about/about';
 
 @Component({
   selector: 'app-home',
-  imports: [Hero, WhyUs, Cars, Steps, Details, Valuation, Faq],
+  imports: [Hero, WhyUs, Cars, Steps, Details, Valuation, About, Faq],
   templateUrl: './home.html',
 })
 export class Home {
