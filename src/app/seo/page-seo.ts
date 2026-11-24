@@ -43,7 +43,7 @@ export class PageSeo {
     canonical: string,
     lang: Lang,
   ): void {
-    const image = `${SITE_URL}/images/og-image-${lang}.jpg`;
+    const image = `${SITE_URL}/og/og-image-${lang}.jpg`;
 
     this.meta.updateTag({ property: 'og:type', content: 'website' });
     this.meta.updateTag({ property: 'og:site_name', content: SITE_NAME });
