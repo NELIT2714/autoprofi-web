@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { Header } from './layout/header/header';
 import { Footer } from './layout/footer/footer';
-import { I18n } from './i18n/i18n';
+import { I18n } from './core/i18n/i18n';
 import { JsonLd } from './seo/json-ld';
 import { buildBusinessSchema } from './seo/business';
 

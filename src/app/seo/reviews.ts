@@ -1,4 +1,4 @@
-import type { Lang } from '../i18n/i18n';
+import type { Lang } from '../core/i18n/i18n';
 
 export interface Review {
   text: Record<Lang, string>;

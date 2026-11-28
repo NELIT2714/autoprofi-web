@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { I18n } from '../../i18n/i18n';
+import { I18n } from '../../core/i18n/i18n';
 import { MAP_URL, PHONES, SOCIALS } from '../../seo/site';
 import { LangSwitch } from '../../components/lang-switch/lang-switch';
 

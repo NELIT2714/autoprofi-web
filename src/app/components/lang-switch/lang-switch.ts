@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { DEFAULT_LANG, I18n, Lang, isLang } from '../../i18n/i18n';
+import { DEFAULT_LANG, I18n, Lang, SLUGS, isLang } from '../../core/i18n/i18n';
 
 @Component({
   selector: 'app-lang-switch',
@@ -39,6 +39,9 @@ export class LangSwitch {
     const [path, query] = rest.split('?');
     const segments = path.split('/').filter(Boolean);
     if (isLang(segments[0]) && segments[0] !== DEFAULT_LANG) segments.shift();
+
+    const slugs = Object.values(SLUGS).find((s) => s.uk === segments[0] || s.ru === segments[0]);
+    if (slugs) segments[0] = slugs[code];
 
     let target = this.i18n.url(segments.join('/'), code);
     if (query) target += '?' + query;

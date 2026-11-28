@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { DEFAULT_LANG, I18n, LANGS, Lang } from '../i18n/i18n';
+import { DEFAULT_LANG, I18n, LANGS, Lang } from '../core/i18n/i18n';
 import { SITE_URL } from './business';
 
 const OG_LOCALE: Record<Lang, string> = {

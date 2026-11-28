@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { I18n } from '../../i18n/i18n';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { I18n } from '../../core/i18n/i18n';
 import { LangSwitch } from '../../components/lang-switch/lang-switch';
 
 @Component({
   selector: 'app-header',
-  imports: [NgOptimizedImage, RouterLink, LangSwitch],
+  imports: [NgOptimizedImage, RouterLink, LangSwitch, RouterLinkActive],
   templateUrl: './header.html',
 })
 export class Header {

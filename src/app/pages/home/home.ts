@@ -3,7 +3,7 @@ import { Hero } from '../../sections/hero/hero';
 import { Valuation } from '../../sections/valuation/valuation';
 import { Steps } from '../../sections/steps/steps';
 import { Faq } from '../../sections/faq/faq';
-import { I18n } from '../../i18n/i18n';
+import { I18n } from '../../core/i18n/i18n';
 import { PageSeo } from '../../seo/page-seo';
 import { WhyUs } from '../../sections/why-us/why-us';
 import { Cars } from '../../sections/cars/cars';

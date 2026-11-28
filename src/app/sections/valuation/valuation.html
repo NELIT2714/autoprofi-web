@@ -1,6 +1,6 @@
 <section id="valuation" class="bg-[#E9E8E0]">
   <div class="container mx-auto px-4 py-10 md:py-12.5">
-    <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-20 xl:gap-50">
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-20 xl:gap-50">
       <div class="flex flex-col gap-y-8 lg:w-max lg:gap-y-12.5">
         <div class="flex flex-col gap-y-5.5">
           <div class="flex items-center gap-x-3.5">
@@ -12,34 +12,153 @@
         <p class="font-[Inter] text-[#555851] lg:w-max" [innerHTML]="t().valuation.text"></p>
       </div>
 
-      <form class="flex w-full flex-col gap-y-6 sm:gap-y-8">
+      <form class="flex w-full flex-col gap-y-6 sm:gap-y-8" (submit)="submit($event)" novalidate>
         <div class="flex flex-col gap-5 sm:flex-row sm:gap-x-8">
           <div class="input w-full sm:w-[45%]">
             <label for="name">{{ t().valuation.nameLabel }}</label>
-            <input name="name" id="name" type="text" placeholder="{{ t().valuation.namePlaceholder }}">
+            <input name="name" id="name" type="text" maxlength="100" autocomplete="name"
+                   placeholder="{{ t().valuation.namePlaceholder }}"
+                   [value]="name()" (input)="name.set($any($event.target).value)">
+            @if (submitted() && !name().trim()) {
+              <p class="mt-1.5 text-sm text-[#ff503a]">{{ t().valuation.errors.required }}</p>
+            }
           </div>
 
           <div class="input w-full sm:w-[55%]">
             <label for="phone">{{ t().valuation.phoneLabel }}</label>
-            <input name="phone" id="phone" type="tel" inputmode="tel">
+            <div class="relative">
+              <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center gap-x-2 border-r border-[#171816]/15 pr-3 pl-4 font-[IBM_Plex_Mono] text-[#171816]">
+                <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true">
+                  <rect width="18" height="6" fill="#0057B8" />
+                  <rect y="6" width="18" height="6" fill="#FFD700" />
+                </svg>
+                +380
+              </span>
+              <input name="phone" id="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
+                     class="pl-28!" placeholder="50 123 45 67"
+                     [value]="phoneDisplay()" (input)="onPhoneInput($event)">
+            </div>
+            @if (submitted() && phoneDigits().length !== 9) {
+              <p class="mt-1.5 text-sm text-[#ff503a]">{{ t().valuation.errors.phone }}</p>
+            }
           </div>
         </div>
 
-        <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-x-8">
-          <div class="input w-full sm:flex-1">
-            <label for="car">{{ t().valuation.carLabel }}</label>
-            <input name="car" id="car" type="text" placeholder="{{ t().valuation.carPlaceholder }}">
+        <div class="input w-full">
+          <label for="car">{{ t().valuation.carLabel }}</label>
+          <input name="car" id="car" type="text" maxlength="200"
+                 placeholder="{{ t().valuation.carPlaceholder }}"
+                 [value]="car()" (input)="car.set($any($event.target).value)">
+          @if (submitted() && !car().trim()) {
+            <p class="mt-1.5 text-sm text-[#ff503a]">{{ t().valuation.errors.required }}</p>
+          }
+        </div>
+
+        <div class="input w-full">
+          <label for="message">
+            {{ t().valuation.messageLabel }}
+            <span class="ml-1 text-[#555851]">· {{ t().valuation.optional }}</span>
+          </label>
+          <textarea name="message" id="message" rows="3" maxlength="1000"
+                    placeholder="{{ t().valuation.messagePlaceholder }}"
+                    [value]="message()" (input)="message.set($any($event.target).value)"></textarea>
+        </div>
+
+        <div class="flex flex-col gap-y-3">
+          <div class="flex items-baseline justify-between">
+            <span class="font-[Inter] text-[#171816]">
+              {{ t().valuation.photosLabel }}
+              <span class="ml-1 text-[#555851]">· {{ t().valuation.optional }}</span>
+            </span>
+            <span class="font-[IBM_Plex_Mono] text-xs text-[#555851]">{{ photos().length }}/{{ maxPhotos }}</span>
           </div>
 
-          <button type="button" class="group flex h-13 w-full cursor-pointer items-center justify-between gap-x-8 bg-[#FF503A] px-5 font-semibold text-[#171816] transition-colors duration-200 hover:bg-white sm:w-auto sm:shrink-0">
-            <span>{{ t().valuation.submit }}</span>
+          @if (photos().length < maxPhotos) {
+            <label for="photos"
+                   class="group flex cursor-pointer flex-col items-center justify-center gap-y-2 border border-dashed border-[#171816]/30 bg-white/40 px-4 py-7 text-center transition-colors duration-200 hover:border-[#ff503a] hover:bg-white data-[dragging=true]:border-[#ff503a] data-[dragging=true]:bg-white"
+                   [attr.data-dragging]="dragging()"
+                   (dragover)="onDragOver($event)" (dragleave)="dragging.set(false)" (drop)="onDrop($event)">
+              <svg class="text-[#555851] transition-colors duration-200 group-hover:text-[#ff503a]" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3M12 4v12M7 9l5-5 5 5" />
+              </svg>
+              <span class="font-[Inter] text-[#171816]">{{ t().valuation.photosCta }}</span>
+              <span class="font-[IBM_Plex_Mono] text-xs text-[#555851]">{{ t().valuation.photosHint }}</span>
+              <input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple class="sr-only" (change)="onFilesSelected($event)">
+            </label>
+          }
+
+          @if (photoError()) {
+            <p class="text-sm text-[#ff503a]">{{ t().valuation.errors[photoError()!] }}</p>
+          }
+
+          @if (photos().length) {
+            <ul class="grid grid-cols-3 gap-3 sm:grid-cols-5">
+              @for (p of photos(); track p.id) {
+                <li class="group relative aspect-square overflow-hidden bg-[#171816]/5">
+                  @if (p.preview) {
+                    <img [src]="p.url" [alt]="p.file.name" class="h-full w-full object-cover">
+                  } @else {
+                    <div class="flex h-full w-full flex-col items-center justify-center gap-y-1 px-2 text-center">
+                      <span class="font-[IBM_Plex_Mono] text-xs font-semibold text-[#171816]">HEIC</span>
+                      <span class="w-full truncate font-[IBM_Plex_Mono] text-[0.625rem] text-[#555851]">{{ p.file.name }}</span>
+                    </div>
+                  }
+                  @if (p.state === 'processing') {
+                    <div class="absolute inset-0 flex items-center justify-center bg-white/50" aria-hidden="true">
+                      <div class="size-5 animate-spin rounded-full border-2 border-[#171816]/20 border-t-[#ff503a]"></div>
+                    </div>
+                  }
+                  <button type="button" (click)="removePhoto(p)" [attr.aria-label]="t().valuation.remove"
+                          class="absolute top-1.5 right-1.5 flex size-6 cursor-pointer items-center justify-center bg-[#171816] text-white transition-colors duration-200 hover:bg-[#ff503a] hover:text-[#171816]">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6">
+                      <path d="M1 1l8 8M9 1L1 9" />
+                    </svg>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+               class="absolute -left-[9999px] h-0 w-0 opacity-0"
+               [value]="website()" (input)="website.set($any($event.target).value)">
+
+        <div class="flex flex-col gap-y-4 sm:flex-row sm:items-center sm:justify-between sm:gap-x-8">
+          <p class="text-[#555851] sm:max-w-[60%]">{{ t().valuation.note }}</p>
+
+          <button type="submit" [disabled]="status() === 'sending'"
+                  class="group flex h-13 w-full cursor-pointer items-center justify-between gap-x-8 bg-[#FF503A] px-5 font-semibold text-[#171816] transition-colors duration-200 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:shrink-0">
+            <span>{{ status() === 'sending' ? t().valuation.sending : t().valuation.submit }}</span>
             <svg class="transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-0.5" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 13L13 1M13 13V1H1" stroke-width="1.8" stroke="currentColor" />
             </svg>
           </button>
         </div>
 
-        <p class="text-[#555851]">{{ t().valuation.note }}</p>
+        @if (status() === 'success') {
+          <div role="status"
+               class="flex items-start gap-x-4 border border-[#171816]/15 bg-white p-4 transition-all duration-300 starting:translate-y-2 starting:opacity-0 sm:items-center sm:p-5">
+            <span class="flex size-10 shrink-0 items-center justify-center bg-[#ff503a] text-[#171816]">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M2 9.5l4.5 4.5L16 4.5" />
+              </svg>
+            </span>
+            <p class="font-[Inter] text-[#171816]">{{ t().valuation.success }}</p>
+          </div>
+        }
+
+        @if (status() === 'error') {
+          <div role="alert"
+               class="flex items-start gap-x-4 border border-[#171816] bg-white p-4 transition-all duration-300 starting:translate-y-2 starting:opacity-0 sm:items-center sm:p-5">
+            <span class="flex size-10 shrink-0 items-center justify-center bg-[#171816] text-white">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M2 2l12 12M14 2L2 14" />
+              </svg>
+            </span>
+            <p class="font-[Inter] text-[#171816]">{{ t().valuation.errors.server }}</p>
+          </div>
+        }
       </form>
     </div>
   </div>

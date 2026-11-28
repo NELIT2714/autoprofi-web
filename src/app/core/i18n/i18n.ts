@@ -9,6 +9,10 @@ export const DEFAULT_LANG: Lang = 'uk';
 
 export const DICTIONARIES = { uk, ru };
 
+export const SLUGS: Record<string, Record<Lang, string>> = {
+  catalog: { uk: 'kupyty-avto-kharkiv', ru: 'kupit-avto-harkov' },
+};
+
 export function isLang(value: string | null): value is Lang {
   return LANGS.includes(value as Lang);
 }

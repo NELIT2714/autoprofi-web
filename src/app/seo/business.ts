@@ -1,4 +1,4 @@
-import { DICTIONARIES, Lang } from '../i18n/i18n';
+import { DICTIONARIES, Lang } from '../core/i18n/i18n';
 
 export const SITE_URL = 'https://autoprofi.kh.ua';
 

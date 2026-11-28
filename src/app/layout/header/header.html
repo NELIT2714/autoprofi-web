@@ -7,9 +7,12 @@
         <span class="whitespace-nowrap text-[#171816] text-[clamp(1.25rem,1.034rem+0.957vw,1.8rem)] font-extrabold">AutoProfi</span>
       </a>
       <ul class="hidden gap-x-8 xl:flex">
-        @for (link of t().header.nav; track link.href) {
+        @for (link of t().header.nav; track link.label) {
+<!--          [fragment]="link.fragment"-->
           <li>
-            <a [routerLink]="i18n.url()" [fragment]="link.href"
+            <a [routerLink]="i18n.url(link.path ?? '')"
+               [routerLinkActive]="link.path !== undefined ? 'text-[#171816]' : ''"
+               [routerLinkActiveOptions]="{ exact: true }"
                class="text-[#555851] transition-colors duration-200 hover:text-[#171816]">
               {{ link.label }}
             </a>
@@ -52,9 +55,9 @@
     <div class="absolute inset-x-0 top-20 border-t border-[#ADAEA5]/40 bg-[#F5F3ED] shadow-lg xl:hidden">
       <div class="container mx-auto px-4 pb-6">
         <ul class="flex flex-col">
-          @for (link of t().header.nav; track link.href) {
+          @for (link of t().header.nav; track link.label) {
             <li class="border-b border-[#ADAEA5]/40">
-              <a [routerLink]="i18n.url()" [fragment]="link.href" (click)="close()"
+              <a [routerLink]="i18n.url(link.path ?? '')" (click)="close()"
                  class="block py-4 text-lg text-[#555851] transition-colors duration-200 hover:text-[#171816]">
                 {{ link.label }}
               </a>

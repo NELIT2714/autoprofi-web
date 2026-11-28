@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { I18n } from '../../i18n/i18n';
+import { I18n } from '../../core/i18n/i18n';
 import { RouterLink } from '@angular/router';
 
 const PHONE_HREF = 'tel:+380999573405';
