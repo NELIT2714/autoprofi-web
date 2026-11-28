@@ -1,24 +1,26 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, computed, DestroyRef, inject, PLATFORM_ID, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { I18n } from '../../core/i18n/i18n';
 import { API_URL } from '../../core/app';
 
 interface Photo {
   id: number;
   file: File;
-  url: string;
-  preview: boolean;
+  thumbUrl: string | null;
   state: 'processing' | 'ready';
+}
+
+interface WorkerResult {
+  file: File;
+  thumb: Blob | null;
 }
 
 type PhotoError = 'type' | 'size' | 'count';
 
 const MAX_PHOTOS = 15;
 const MAX_SIZE = 20 * 1024 * 1024;
-const MAX_SIDE = 2048;
-const SKIP_SIZE = 1024 * 1024;
-const JPEG_QUALITY = 0.82;
-const CONCURRENCY = 2;
+const WORKERS = 2;
 
 @Component({
   selector: 'app-valuation',
@@ -28,12 +30,14 @@ const CONCURRENCY = 2;
 export class Valuation {
   protected t = inject(I18n).t;
   private http = inject(HttpClient);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   protected readonly maxPhotos = MAX_PHOTOS;
 
   private nextId = 0;
   private queue: Photo[] = [];
-  private active = 0;
+  private workers: Worker[] = [];
+  private idle: Worker[] = [];
 
   protected name = signal('');
   protected car = signal('');
@@ -44,6 +48,7 @@ export class Valuation {
   protected photoError = signal<PhotoError | null>(null);
   protected dragging = signal(false);
   protected submitted = signal(false);
+  protected progress = signal(0);
   protected status = signal<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   protected phoneDisplay = computed(() => {
@@ -54,7 +59,10 @@ export class Valuation {
   constructor() {
     inject(DestroyRef).onDestroy(() => {
       this.queue = [];
-      this.photos().forEach((p) => URL.revokeObjectURL(p.url));
+      this.workers.forEach((w) => w.terminate());
+      this.workers = [];
+      this.idle = [];
+      this.revokeAll();
     });
   }
 
@@ -87,7 +95,7 @@ export class Valuation {
 
   protected removePhoto(photo: Photo) {
     this.queue = this.queue.filter((p) => p.id !== photo.id);
-    URL.revokeObjectURL(photo.url);
+    if (photo.thumbUrl) URL.revokeObjectURL(photo.thumbUrl);
     this.photos.update((list) => list.filter((p) => p.id !== photo.id));
     this.photoError.set(null);
   }
@@ -99,6 +107,7 @@ export class Valuation {
     if (!this.name().trim() || !this.car().trim() || this.phoneDigits().length !== 9) return;
     if (this.status() === 'sending') return;
 
+    this.progress.set(0);
     this.status.set('sending');
     await this.whenIdle();
 
@@ -110,13 +119,19 @@ export class Valuation {
     if (this.website()) body.append('website', this.website());
     this.photos().forEach((p) => body.append('photos', p.file));
 
-    this.http.post(`${API_URL}/v1/leads`, body).subscribe({
-      next: () => {
-        this.status.set('success');
-        this.reset();
-      },
-      error: () => this.status.set('error'),
-    });
+    this.http
+      .post(`${API_URL}/v1/leads`, body, { reportProgress: true, observe: 'events' })
+      .subscribe({
+        next: (e) => {
+          if (e.type === HttpEventType.UploadProgress && e.total) {
+            this.progress.set(Math.round((e.loaded / e.total) * 100));
+          } else if (e.type === HttpEventType.Response) {
+            this.status.set('success');
+            this.reset();
+          }
+        },
+        error: () => this.status.set('error'),
+      });
   }
 
   private async whenIdle() {
@@ -150,105 +165,77 @@ export class Valuation {
         this.photoError.set('count');
         break;
       }
-      added.push({
-        id: this.nextId++,
-        file,
-        url: URL.createObjectURL(file),
-        preview: !this.isHeic(file),
-        state: 'processing',
-      });
+      added.push({ id: this.nextId++, file, thumbUrl: null, state: 'processing' });
     }
 
     if (!added.length) return;
     this.photos.update((list) => [...list, ...added]);
+
+    if (!this.initWorkers()) {
+      // воркеры недоступны — отправляем оригиналы как есть
+      added.forEach((p) => this.finish(p, { file: p.file, thumb: null }));
+      return;
+    }
     this.queue.push(...added);
     this.pump();
   }
 
-  private pump() {
-    while (this.active < CONCURRENCY && this.queue.length) {
-      const photo = this.queue.shift()!;
-      this.active++;
-      this.process(photo).finally(() => {
-        this.active--;
-        this.pump();
-      });
+  private initWorkers(): boolean {
+    if (this.workers.length) return true;
+    if (!this.isBrowser || typeof Worker === 'undefined') return false;
+    try {
+      for (let i = 0; i < WORKERS; i++) {
+        const w = new Worker(new URL('./photo.worker', import.meta.url), { type: 'module' });
+        this.workers.push(w);
+        this.idle.push(w);
+      }
+      return true;
+    } catch {
+      this.workers.forEach((w) => w.terminate());
+      this.workers = [];
+      this.idle = [];
+      return false;
     }
   }
 
-  private async process(photo: Photo) {
-    let result: { file: File; preview: boolean };
-    try {
-      result = await this.compress(photo.file);
-    } catch {
-      result = { file: photo.file, preview: !this.isHeic(photo.file) };
-    }
+  private pump() {
+    while (this.idle.length && this.queue.length) {
+      const worker = this.idle.pop()!;
+      const photo = this.queue.shift()!;
 
+      const release = (result: WorkerResult) => {
+        worker.onmessage = null;
+        worker.onerror = null;
+        this.finish(photo, result);
+        this.idle.push(worker);
+        this.pump();
+      };
+
+      worker.onmessage = ({ data }: MessageEvent<WorkerResult>) => release(data);
+      worker.onerror = () => release({ file: photo.file, thumb: null });
+      worker.postMessage({ file: photo.file });
+    }
+  }
+
+  private finish(photo: Photo, result: WorkerResult) {
+    // пока фото обрабатывалось, его могли удалить
     if (!this.photos().some((p) => p.id === photo.id)) return;
 
-    const replaceUrl = !photo.preview && result.preview;
-    const url = replaceUrl ? URL.createObjectURL(result.file) : photo.url;
-    if (replaceUrl) URL.revokeObjectURL(photo.url);
-
+    const thumbUrl = result.thumb ? URL.createObjectURL(result.thumb) : null;
     this.photos.update((list) =>
       list.map((p) =>
-        p.id === photo.id
-          ? { ...p, file: result.file, url, preview: result.preview, state: 'ready' }
-          : p,
+        p.id === photo.id ? { ...p, file: result.file, thumbUrl, state: 'ready' } : p,
       ),
     );
   }
 
-  private async compress(file: File): Promise<{ file: File; preview: boolean }> {
-    const heic = this.isHeic(file);
-
-    let bitmap: ImageBitmap;
-    try {
-      bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
-    } catch {
-      return { file, preview: !heic };
-    }
-
-    const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));
-    if (scale === 1 && file.size <= SKIP_SIZE && !heic) {
-      bitmap.close();
-      return { file, preview: true };
-    }
-
-    const width = Math.round(bitmap.width * scale);
-    const height = Math.round(bitmap.height * scale);
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      bitmap.close();
-      return { file, preview: !heic };
-    }
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, width, height);
-    ctx.drawImage(bitmap, 0, 0, width, height);
-    bitmap.close();
-
-    const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob(resolve, 'image/jpeg', JPEG_QUALITY),
-    );
-    canvas.width = 0;
-    canvas.height = 0;
-
-    if (!blob || (!heic && blob.size >= file.size)) return { file, preview: !heic };
-
-    const jpeg = new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', {
-      type: 'image/jpeg',
-      lastModified: Date.now(),
-    });
-    return { file: jpeg, preview: true };
+  private revokeAll() {
+    this.photos().forEach((p) => p.thumbUrl && URL.revokeObjectURL(p.thumbUrl));
   }
 
   private reset() {
     this.queue = [];
-    this.photos().forEach((p) => URL.revokeObjectURL(p.url));
+    this.revokeAll();
     this.name.set('');
     this.car.set('');
     this.message.set('');
